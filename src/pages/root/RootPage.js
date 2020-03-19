@@ -4,6 +4,11 @@ import PropTypes from 'prop-types';
 import { handleApiError as handleApiErrorProps } from 'ducks/operators/settings';
 import { setModal as setModalAction } from 'ducks/actions';
 import { Input } from 'components/inputs/Input';
+import { InputCurrency } from 'components/inputs/InputCurrency';
+import { InputNumber } from 'components/inputs/InputNumber';
+import { InputPercent } from 'components/inputs/InputPercent';
+import { Dropdown } from 'components/dropdowns/Dropdown';
+import { DropdownCheckbox } from 'components/dropdowns/DropdownCheckbox';
 import { Button } from 'components/buttons/Button';
 import cn from './RootPage.module.scss';
 
@@ -15,16 +20,66 @@ export class RootPage extends Component {
   };
 
   state = {
-    email_address: '',
-    email_valid: true,
-    password_valid: true,
-    confirm_password: '',
-    password: '',
+    input_base: '',
+    input_currency: '',
+    input_number: '',
+    input_percent: '',
+    dropdown_value: '',
+    rows: [
+      {
+        country: 'Mexico',
+        country_id: 1,
+        uuid: 1,
+      },
+      {
+        country: 'Canada',
+        country_id: 2,
+        uuid: 2,
+      },
+      {
+        country: 'USA',
+        country_id: 3,
+        uuid: 3,
+      },
+    ],
+    selected: [{
+      country: 'USA',
+      country_id: 3,
+      uuid: 3,
+    },]
+  };
+
+  handleInputBase = input => {
+    this.setState({ input_base: input.value });
+  };
+
+  handleInputCurrency = input => {
+    this.setState({ input_currency: input.value });
+  };
+
+  handleInputNumber = input => {
+    this.setState({ input_number: input.value });
+  };
+
+  handleInputPercent = input => {
+    this.setState({ input_percent: input.value });
+  };
+
+  handleDropdown = item => {
+    this.setState({
+      dropdown_value: item.country,
+    });
+  };
+
+  handleDropdownCheckbox = items => {
+    this.setState({
+      selected: items,
+    });
   };
 
   handleSubmit = async () => {
     const { handleApiError, registerUser } = this.props;
-    const { email_address, email_valid, password_valid, password } = this.state;
+    const { rows, email_address, email_valid, password_valid, password } = this.state;
     const data = {
       email_address,
       password,
@@ -42,14 +97,59 @@ export class RootPage extends Component {
       }
       await registerUser(data);
     } catch (err) {
-      handleApiError(err, data);
+      handleApiError(err);
     }
   };
 
   render() {
+    const { setModal } = this.props;
+    const { rows, selected, dropdown_value, input_base, input_currency, input_number, input_percent } = this.state;
     return (
       <div className={cn.page}>
-        <p>dsjfhsdkjhf</p>
+        <div className={cn.left}>
+          <Input label="Input Base" value={input_base} handleOnChange={this.handleInputBase} />
+          <Input
+            label="Input Currency"
+            value={input_currency}
+            component={InputCurrency}
+            margin="10px 0px 0px 0px"
+            handleOnChange={this.handleInputCurrency}
+          />
+          <Input
+            label="Input Number"
+            value={input_number}
+            component={InputNumber}
+            margin="10px 0px 0px 0px"
+            handleOnChange={this.handleInputNumber}
+          />
+          <Input
+            label="Input Percent"
+            value={input_percent}
+            component={InputPercent}
+            margin="10px 0px 0px 0px"
+            handleOnChange={this.handleInputPercent}
+          />
+          <Dropdown
+            label="Dropdown"
+            rows={rows}
+            value={dropdown_value}
+            row_key="country"
+            margin="10px 0px 0px 0px"
+            handleOnSelect={this.handleDropdown}
+          />
+          <DropdownCheckbox
+            label="Dropdown Checkbox"
+            rows={rows}
+            selected={selected}
+            row_key="country"
+            checked_key="uuid"
+            margin="10px 0px 0px 0px"
+            handleOnSelect={this.handleDropdownCheckbox}
+          />
+          <Button margin="20px 0px 0px 0px" onClick={() => setModal({ api_error: true })}>
+            Open Modal
+          </Button>
+        </div>
       </div>
     );
   }

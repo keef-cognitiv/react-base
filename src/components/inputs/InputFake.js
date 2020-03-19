@@ -2,12 +2,7 @@ import React from 'react';
 import * as PropTypes from 'prop-types';
 import cn from './Input.module.scss';
 
-export const InputFake = ({
-  placeholder,
-  value,
-  text_align,
-  handleOnFocus,
-}) => (
+export const InputFake = ({ placeholder, value, text_align, handleOnFocus }) => (
   <div onClick={handleOnFocus} className={cn.inputFake}>
     {placeholder && !value && (
       <p className={cn.placeholder} style={{ textAlign: text_align }}>

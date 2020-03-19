@@ -1,0 +1,41 @@
+@import 'scss/variables';
+
+.menuContainer {
+    display: flex;
+    position: sticky;
+    left: 0;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+    width: 72px;
+    min-height: 100vh;
+    background: #fff;
+    border-right: 1px solid #62738d;
+    box-shadow: $box_shadow;
+}
+.logo {
+    margin: 15px 0px 15px 0px;
+}
+.iconWrapper {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 18px;
+    width: 100%;
+    color: #62738d;
+    height: 75px;
+    &:hover {
+    color: #3b4253;
+    }
+    &:hover [data-role='tooltip']{
+        display: block;
+    }
+}
+.flex {
+    flex-grow: 1;
+}
+.iconWrapper:hover [data-role='tooltip']  {
+    display: block;
+}

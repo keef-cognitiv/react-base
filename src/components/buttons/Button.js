@@ -5,7 +5,13 @@ import classNames from 'classnames';
 import cn from './Button.module.scss';
 
 export const Button = React.memo(({ children, margin, width, left_icon, right_icon, variant, disabled, onClick }) => (
-  <button className={classNames(cn.button, cn[variant])} disabled={disabled} style={{ width, margin }} onClick={onClick} type="submit">
+  <button
+    className={classNames(cn.button, cn[variant])}
+    disabled={disabled}
+    style={{ width, margin }}
+    onClick={onClick}
+    type="submit"
+  >
     {left_icon && <FontAwesomeIcon className={cn.leftIcon} icon={left_icon} />}
     {children}
     {right_icon && <FontAwesomeIcon className={cn.rightIcon} icon={right_icon} />}

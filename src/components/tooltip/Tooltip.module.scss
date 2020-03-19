@@ -1,0 +1,19 @@
+.tooltip {
+  display: none;
+  left: 80px;
+  position: absolute;
+  font-weight: 400;
+  background: #3b4253;
+  color: #fff;
+  line-height: 1;
+  width: max-content;
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-size: 12px;
+  border: 1px solid #62738d;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+  z-index: 5;
+  p {
+    margin: 0;
+  }
+}

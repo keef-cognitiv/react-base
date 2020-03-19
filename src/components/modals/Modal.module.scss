@@ -9,7 +9,7 @@
   width: 100%;
   overflow: auto;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
+  z-index: 9998;
   .content {
     position: relative;
     height: max-content;
@@ -35,7 +35,7 @@
   }
 }
 .primary {
-  color: #8591e8;
+  color: #3b4253;
 }
 .secondary {
   color: #fff;
