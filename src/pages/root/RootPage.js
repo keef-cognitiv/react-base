@@ -11,12 +11,14 @@ import { InputPercent } from 'components/inputs/InputPercent';
 import { Dropdown } from 'components/dropdowns/Dropdown';
 import { DropdownCheckbox } from 'components/dropdowns/DropdownCheckbox';
 import { Button } from 'components/buttons/Button';
+import { Table } from 'components/table/Table';
+import { v1 as uuid } from 'uuid';
+import { PokemonCell, PokemonUrlCell } from './PokemonCells';
 import cn from './RootPage.module.scss';
 
 export class RootPage extends Component {
   static propTypes = {
-    registerUser: PropTypes.func,
-    setModal: PropTypes.func,
+    pokemon: PropTypes.array,
     setLoading: PropTypes.func,
     getPokemon: PropTypes.func,
     handleApiError: PropTypes.func,
@@ -52,6 +54,24 @@ export class RootPage extends Component {
         uuid: 3,
       },
     ],
+    headers: [
+      {
+        title: 'Pokemon',
+        show: true,
+        min_width: '150px',
+        uuid: uuid(),
+      },
+      {
+        title: 'URL',
+        show: true,
+        flex_grow: 1,
+        min_width: '250px',
+        uuid: uuid(),
+      },
+    ],
+    settings: {
+      pagination: 25,
+    },
   };
 
   componentDidMount() {
@@ -61,7 +81,7 @@ export class RootPage extends Component {
   handleInitialState = async () => {
     const { setLoading, getPokemon, handleApiError } = this.props;
     try {
-      await getPokemon('ditto');
+      await getPokemon();
     } catch (err) {
       handleApiError(err);
     }
@@ -71,7 +91,7 @@ export class RootPage extends Component {
   handleErrorApi = async () => {
     const { handleApiError } = this.props;
     try {
-      throw new Error('This can handle API errors if you catch the error with handleApiError')
+      throw new Error('This can handle API errors if you catch the error with handleApiError');
     } catch (err) {
       handleApiError(err);
     }
@@ -105,33 +125,19 @@ export class RootPage extends Component {
     });
   };
 
-  handleSubmit = async () => {
-    const { handleApiError, registerUser } = this.props;
-    const { email_address, email_valid, password_valid, password } = this.state;
-    const data = {
-      email_address,
-      password,
-      read_terms: false,
-    };
-    try {
-      if (!email_valid) {
-        throw Error('Email Address must be valid');
-      }
-      if (!password_valid) {
-        throw Error('Confirm Password must match Password');
-      }
-      if (data.password.length < 5) {
-        throw Error('Password must be at least 5 characters');
-      }
-      await registerUser(data);
-    } catch (err) {
-      handleApiError(err);
-    }
-  };
-
   render() {
-    const { setModal } = this.props;
-    const { rows, selected, dropdown_value, input_base, input_currency, input_number, input_percent } = this.state;
+    const {
+      headers,
+      rows,
+      settings,
+      selected,
+      dropdown_value,
+      input_base,
+      input_currency,
+      input_number,
+      input_percent,
+    } = this.state;
+    const { pokemon } = this.props;
     return (
       <div className={cn.page}>
         <div className={cn.left}>
@@ -179,10 +185,17 @@ export class RootPage extends Component {
             Open Modal
           </Button>
         </div>
+        <div className={cn.right}>
+          <Table rows={pokemon} headers={headers} settings={settings} cell_components={[PokemonCell, PokemonUrlCell]} />
+        </div>
       </div>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  pokemon: state.pokemon,
+});
 
 const mapDispatchToProps = {
   setModal: setModalAction,
@@ -191,4 +204,4 @@ const mapDispatchToProps = {
   handleApiError: handleApiErrorProps,
 };
 
-export default connect(null, mapDispatchToProps)(RootPage);
+export default connect(mapStateToProps, mapDispatchToProps)(RootPage);

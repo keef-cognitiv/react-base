@@ -30,9 +30,8 @@ export const SelectCheckbox = ({
       {select_title && <p className={cn.selectTitle}>{select_title}</p>}
       {rows.length > 0 &&
         rows.map(row => (
-          <div className={cn.listContainer}>
+          <div key={row.uuid} className={cn.listContainer}>
             <Checkbox
-              key={row.uuid}
               label={row[row_key]}
               toggleChecked={checked => handleSelectMulti(checked, row)}
               checked={selected.some(select => select[row_key] === row[row_key])}
