@@ -1,21 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React, { PureComponent, Suspense } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Loading } from 'components/loading/Loading';
+import { routes } from 'routes/routes';
+import { PublicRoute } from 'routes/PublicRoute';
+import * as pages from 'pages/asyncPages';
+export class App extends PureComponent {
+  render() {
+    return (
+      <Router basename="/">
+        <Suspense fallback={<Loading variant="dark" />}>
+          <Switch>
+            <PublicRoute exact path={routes.ROOT} component={pages.RootPage} />
+            <PublicRoute exact path={routes.SANDBOX} component={pages.SandboxPage} />
+            <Route component={pages.ErrorPage} />
+          </Switch>
+        </Suspense>
+      </Router>
+    );
+  }
 }
-
-export default App;
