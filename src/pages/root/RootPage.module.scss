@@ -7,6 +7,9 @@
 }
 
 .left {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
   width: 400px;
   padding: 15px;
   flex-grow: 1;
@@ -14,4 +17,7 @@
   border-radius: 5px;
   background: #fff;
   box-shadow: $box_shadow;
+}
+.flex {
+  flex-grow: 1;
 }

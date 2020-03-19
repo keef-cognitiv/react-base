@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { getPokemon as getPokemonProps } from 'ducks/operators/pokemon';
 import { handleApiError as handleApiErrorProps } from 'ducks/operators/settings';
-import { setModal as setModalAction } from 'ducks/actions';
+import { setModal as setModalAction, setLoading as setLoadingAction } from 'ducks/actions';
 import { Input } from 'components/inputs/Input';
 import { InputCurrency } from 'components/inputs/InputCurrency';
 import { InputNumber } from 'components/inputs/InputNumber';
@@ -16,6 +17,8 @@ export class RootPage extends Component {
   static propTypes = {
     registerUser: PropTypes.func,
     setModal: PropTypes.func,
+    setLoading: PropTypes.func,
+    getPokemon: PropTypes.func,
     handleApiError: PropTypes.func,
   };
 
@@ -42,11 +45,36 @@ export class RootPage extends Component {
         uuid: 3,
       },
     ],
-    selected: [{
-      country: 'USA',
-      country_id: 3,
-      uuid: 3,
-    },]
+    selected: [
+      {
+        country: 'USA',
+        country_id: 3,
+        uuid: 3,
+      },
+    ],
+  };
+
+  componentDidMount() {
+    this.handleInitialState();
+  }
+
+  handleInitialState = async () => {
+    const { setLoading, getPokemon, handleApiError } = this.props;
+    try {
+      await getPokemon('ditto');
+    } catch (err) {
+      handleApiError(err);
+    }
+    setLoading(false);
+  };
+
+  handleErrorApi = async () => {
+    const { handleApiError } = this.props;
+    try {
+      throw new Error('This can handle API errors if you catch the error with handleApiError')
+    } catch (err) {
+      handleApiError(err);
+    }
   };
 
   handleInputBase = input => {
@@ -79,7 +107,7 @@ export class RootPage extends Component {
 
   handleSubmit = async () => {
     const { handleApiError, registerUser } = this.props;
-    const { rows, email_address, email_valid, password_valid, password } = this.state;
+    const { email_address, email_valid, password_valid, password } = this.state;
     const data = {
       email_address,
       password,
@@ -146,7 +174,8 @@ export class RootPage extends Component {
             margin="10px 0px 0px 0px"
             handleOnSelect={this.handleDropdownCheckbox}
           />
-          <Button margin="20px 0px 0px 0px" onClick={() => setModal({ api_error: true })}>
+          <div className={cn.flex} />
+          <Button margin="10px 0px 0px 0px" onClick={this.handleErrorApi}>
             Open Modal
           </Button>
         </div>
@@ -157,6 +186,8 @@ export class RootPage extends Component {
 
 const mapDispatchToProps = {
   setModal: setModalAction,
+  setLoading: setLoadingAction,
+  getPokemon: getPokemonProps,
   handleApiError: handleApiErrorProps,
 };
 

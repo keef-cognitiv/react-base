@@ -20,7 +20,6 @@ export class Input extends Component {
     bulk: PropTypes.bool,
     error: PropTypes.bool,
     margin: PropTypes.string,
-    flexGrow: PropTypes.number,
     background: PropTypes.string,
     width: PropTypes.string,
     select_focus: PropTypes.bool,
@@ -44,7 +43,6 @@ export class Input extends Component {
     right_icon: false,
     type: 'text',
     margin: '0px',
-    flexGrow: 1,
     background: 'transparent',
     width: '100%',
     bulk: false,
@@ -102,7 +100,6 @@ export class Input extends Component {
       background,
       width,
       disabled,
-      flexGrow,
       ...rest
     } = this.props;
     let { focus } = this.state;
@@ -111,7 +108,7 @@ export class Input extends Component {
       focus = dropdown_focus;
     }
     return (
-      <div className={cn.container} style={{ margin, maxWidth: width, width, background, flexGrow }}>
+      <div className={cn.container} style={{ margin, maxWidth: width, width, background }}>
         {label && <p className={cn.label}>{label}</p>}
         <div
           className={classNames(cn.inputContainer, {

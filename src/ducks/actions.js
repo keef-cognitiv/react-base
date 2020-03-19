@@ -18,3 +18,9 @@ export const setLoading = loading => ({
   type: constants.SET_LOADING,
   payload: loading,
 });
+
+// ------ POKEMON ACTIONS ------ //
+export const setPokemon = pokemon => ({
+  type: constants.SET_POKEMON,
+  payload: pokemon,
+});

@@ -16,9 +16,9 @@ export const Menu = React.memo(() => (
       <FontAwesomeIcon icon="stream" />
       <Tooltip title="Sandbox" />
     </Link>
-    <Link to="/sandbox" className={cn.iconWrapper}>
+    <Link to="/error" className={cn.iconWrapper}>
       <FontAwesomeIcon icon="star" />
-      <Tooltip title="More Pages" />
+      <Tooltip title="Error Page" />
     </Link>
     <Link to="/sandbox" className={cn.iconWrapper}>
       <FontAwesomeIcon icon="flag-checkered" />

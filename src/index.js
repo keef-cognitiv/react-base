@@ -11,6 +11,7 @@ import { App } from './App';
 import { store } from './store';
 
 library.add(far, fas, fab);
+global.store = store;
 
 const render = Component =>
   ReactDOM.render(
